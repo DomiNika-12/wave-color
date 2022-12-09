@@ -153,14 +153,14 @@ export default function Home() {
         <div className={styles.wrapper}>
           <h1 className={styles.title}>Visible Light Spectrum</h1>
           <div style={{
-            width: '200px', height: '100px',
+            width: '40%', height: '100px',
             backgroundColor: `rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`
           }}></div>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <input value={alpha} onChange={alphaChangeHandler} type='number' className={styles.input} />
             <div style={{ fontSize: '30px', textAlign: 'center' }}>nm</div>
           </div>
-          <img src={'/spectrum.jpg'} width={'500px'} />
+          {/* <img src={'/spectrum.jpg'} width={'500px'} /> */}
 
         </div>
       </div>
