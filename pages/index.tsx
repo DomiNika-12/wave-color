@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
+import { TbArrowBigLeft } from 'react-icons/Tb';
 
 function calculateGaussian(alpha: number, peak: number, stdDevLeft: number, stdDevRight: number) {
   if (alpha < peak) {
@@ -58,7 +59,44 @@ function normalize(C: number) {
   return (1.055 * Math.pow(C, 1 / 2.4) - 0.055)
 }
 
+interface divData {
+  color: string,
+  alpha: number
+}
+
 export default function Home() {
+
+  const [divArray, setDivArray] = useState<divData[]>([])
+  const [arrowPos, setArrowPos] = useState(0)
+  const [windowSize, setWindowSize] = useState<Window>()
+  const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(window);
+    }
+
+    let height = window.innerHeight
+    console.log("Window height: " + window.innerHeight)
+    let step = (720 - 380) / (height)
+    let length = 380
+    for (let i = 0; i <= height; i++) {
+      if (divArray.length > height) {
+        break
+      }
+      let newColor = `rgb(${(calculateR(length) * 255).toFixed(0)},${(calculateG(length) * 255).toFixed(0)}, ${(calculateB(length) * 255).toFixed(0)})`
+      let newArray = divArray
+      newArray.push({ color: newColor, alpha: length })
+      setDivArray([...newArray])
+      length = length + step
+    }
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, [])
+
   const [alpha, setAlpha] = useState(0)
 
   const alphaChangeHandler = (e: any) => {
@@ -74,6 +112,21 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    let height = window.innerHeight || 0
+    let step = (720 - 380) / (height)
+    if (alpha > 720) {
+      setArrowPos((720 - 380) / step)
+      return
+    }
+    if (alpha < 380) {
+      setArrowPos((380 - 380) / step)
+      return
+    }
+    let numberOfSteps = (alpha - 380) / step
+    setArrowPos(numberOfSteps - 20)
+  }, [alpha, setAlpha])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -82,36 +135,38 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <img src={'/spectrum.jpg'} width={'800px'} />
-        <div style={{
-          width: '800px', height: '100px',
-          backgroundColor: `rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`
-        }}></div>
-        <input value={alpha} onChange={alphaChangeHandler} type='number' />
-        <h1 className={styles.title}>
-          {alpha}
-          <div>
-            {`rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`}
+      <div className={styles.container}>
+        <div style={{ backgroundColor: 'red', width: '100px', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+          {divArray.map((e, i) => {
+            return (<div style={{ backgroundColor: e.color, width: '100px', height: `1px` }} key={e.alpha + i}></div>)
+          })}
+        </div>
+        <div style={{ height: '100vh', backgroundColor: 'white', width: '150px' }}>
+          <div style={{
+            top: `${arrowPos}px`, position: 'sticky', color: `rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`
+          }}>
+            <TbArrowBigLeft className={styles.pointingArrow} style={{
+              color: `rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`
+            }} />
           </div>
-        </h1>
+        </div>
 
+        <div>
+          <img src={'/spectrum.jpg'} width={'500px'} />
+          <div style={{
+            width: '200px', height: '100px',
+            backgroundColor: `rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`
+          }}></div>
+          <input value={alpha} onChange={alphaChangeHandler} type='number' />
+          <h4 className={styles.title}>
+            {alpha}
+            <div>
+              {`rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`}
+            </div>
+          </h4>
+        </div>
 
-
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
+      </div >
+    </div >
   )
 }
