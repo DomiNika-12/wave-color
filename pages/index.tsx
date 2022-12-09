@@ -137,7 +137,7 @@ export default function Home() {
         <div style={{ backgroundColor: 'transparent', color: 'white', position: 'fixed', top: '5px', left: '5px' }}>380 nm</div>
         <div style={{ backgroundColor: 'transparent', color: 'white', position: 'fixed', bottom: '5px', left: '5px' }}>750 nm</div>
       </div>
-      <div style={{ marginLeft: '10%', display: 'flex', flexDirection: 'row', width: '100%' }}>
+      <div style={{ marginLeft: '10%', display: 'flex', flexDirection: 'row', width: '20%' }}>
         <div style={{ height: '100vh', backgroundColor: 'white', width: '100px' }}>
           <div style={{
             top: `${arrowPos}px`,
