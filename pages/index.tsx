@@ -130,14 +130,14 @@ export default function Home() {
   return (
 
     <div className={styles.container}>
-      <div style={{ width: '10%', height: '100vh', display: 'flex', flexDirection: 'column', position: 'fixed' }}>
+      <div style={{ width: '20%', height: '100vh', display: 'flex', flexDirection: 'column', position: 'fixed' }}>
         {divArray.map((e, i) => {
           return (<div style={{ backgroundColor: e.color, width: '100%', height: `1px` }} key={e.alpha + i}></div>)
         })}
         <div style={{ backgroundColor: 'transparent', color: 'white', position: 'fixed', top: '5px', left: '5px' }}>380 nm</div>
         <div style={{ backgroundColor: 'transparent', color: 'white', position: 'fixed', bottom: '5px', left: '5px' }}>750 nm</div>
       </div>
-      <div style={{ marginLeft: '10%', display: 'flex', flexDirection: 'row', width: '20%' }}>
+      <div style={{ marginLeft: '20%', display: 'flex', flexDirection: 'row', flex: 1 }}>
         <div style={{ height: '100vh', backgroundColor: 'white', width: '100px' }}>
           <div style={{
             top: `${arrowPos}px`,
