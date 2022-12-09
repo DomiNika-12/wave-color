@@ -138,8 +138,10 @@ export default function Home() {
         <div style={{ backgroundColor: 'transparent', color: 'white', position: 'fixed', bottom: '5px', left: '5px' }}>750 nm</div>
       </div>
       <div style={{ marginLeft: '20%', display: 'flex', flexDirection: 'row', flex: 1 }}>
-        <div style={{ height: '100vh', backgroundColor: 'white', width: '100px' }}>
+        <div style={{ height: '100vh', backgroundColor: 'white', width: '100%' }}>
           <div style={{
+            border: 'none',
+            outline: 'none',
             top: `${arrowPos}px`,
             position: 'sticky',
             color: `rgb(${(calculateR(alpha) * 255).toFixed(0)},${(calculateG(alpha) * 255).toFixed(0)}, ${(calculateB(alpha) * 255).toFixed(0)})`
