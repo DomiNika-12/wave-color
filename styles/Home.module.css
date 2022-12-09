@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: row;
+  width: 100%;
 }
 
 .main {
@@ -16,22 +17,33 @@
 .pointingArrow {
   font-size: 40px;
 }
+
+.title {
+  text-align: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100vh;
+  align-items: center;
+  align-self: center;
+  flex: 1;
+
+}
+
+.input {
+  padding: 10px;
+  margin: 20px;
+  font-size: 30px;
+  width: 150px;
+}
+
 @media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+
 }
 
 @media (prefers-color-scheme: dark) {
-  .card,
-  .footer {
-    border-color: #222;
-  }
-  .code {
-    background: #111;
-  }
-  .logo img {
-    filter: invert(1);
-  }
+
 }
